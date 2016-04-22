@@ -11,6 +11,7 @@ def get_version(package):
     init_py = open(os.path.join(package, '__init__.py')).read()
     return re.search("__version__ = ['\"]([^'\"]+)['\"]", init_py).group(1)
 
+
 def get_package_data(package):
     """
     Return all files under the root package, that are not in a
