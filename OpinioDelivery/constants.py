@@ -11,6 +11,9 @@ ACCESS_KEY = config.ACCESS_KEY
 SECRET_KEY = config.SECRET_KEY
 
 # Api Endpoints
-API_ENDPOINT = '/api/v1/orders'
-API_MERCHANT_ENDPOINT = '/api/v1/merchants'
-API_SERVICIBILITY_ENDPOINT = '/api/v1/serviceability'
+API_BASE_ENDPOINT = '/api'
+API_VERSION = 'v1'
+
+API_ENDPOINT = API_BASE_ENDPOINT + '/' + API_VERSION + '/orders'
+API_MERCHANT_ENDPOINT = API_BASE_ENDPOINT + '/' + API_VERSION + '/merchants'
+API_SERVICEABILITY_ENDPOINT = API_BASE_ENDPOINT + '/' + API_VERSION + '/serviceability'

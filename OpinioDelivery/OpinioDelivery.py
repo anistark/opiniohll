@@ -6,7 +6,7 @@ import collections
 import hmac
 import hashlib
 from base64 import b64encode
-from constants import API_ENDPOINT, PRODUCTION_HOST, TESTING_HOST, LOCAL_HOST, ACCESS_KEY, SECRET_KEY, API_MERCHANT_ENDPOINT, API_SERVICIBILITY_ENDPOINT
+from constants import API_ENDPOINT, PRODUCTION_HOST, TESTING_HOST, LOCAL_HOST, ACCESS_KEY, SECRET_KEY, API_MERCHANT_ENDPOINT, API_SERVICEABILITY_ENDPOINT
 from .errors import HTTPError
 
 
@@ -16,9 +16,9 @@ class OpinioDelivery:
         self.SERVER_HOST = LOCAL_HOST
         self.ACCESS_KEY = ACCESS_KEY
         self.SECRET_KEY = SECRET_KEY
-        self.API_ENDPOINT = 'http://'+self.SERVER_HOST + API_ENDPOINT
-        self.API_MERCHANT_ENDPOINT = 'http://'+self.SERVER_HOST + API_MERCHANT_ENDPOINT
-        self.API_SERVICIBILITY_ENDPOINT = 'http://'+self.SERVER_HOST + API_SERVICIBILITY_ENDPOINT
+        self.API_ENDPOINT = 'http://'+self.SERVER_HOST+API_ENDPOINT
+        self.API_MERCHANT_ENDPOINT = 'http://'+self.SERVER_HOST+API_MERCHANT_ENDPOINT
+        self.API_SERVICEABILITY_ENDPOINT = 'http://'+self.SERVER_HOST+API_SERVICEABILITY_ENDPOINT
 
     def get_req_header(self, params, method, path):
         if params:
@@ -83,8 +83,9 @@ class OpinioDelivery:
 
     def serviceability(self, params):
         print '-- Serviceability --'
-        print params
-        headers = self.get_req_header({}, 'GET', API_SERVICIBILITY_ENDPOINT)
-        response = requests.get(self.API_SERVICIBILITY_ENDPOINT, params=params, headers=headers)
+        print API_SERVICEABILITY_ENDPOINT
+        print '++++++++++++++++++'
+        headers = self.get_req_header({}, 'GET', API_SERVICEABILITY_ENDPOINT)
+        response = requests.get(self.API_SERVICEABILITY_ENDPOINT, params=params, headers=headers)
         print response.content
         return self._get_repsonse_dict(response)
