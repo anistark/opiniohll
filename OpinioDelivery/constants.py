@@ -12,3 +12,5 @@ SECRET_KEY = config.SECRET_KEY
 
 # Api Endpoints
 API_ENDPOINT = '/api/v1/orders'
+API_MERCHANT_ENDPOINT = '/api/v1/merchants'
+API_SERVICIBILITY_ENDPOINT = '/api/v1/serviceability'

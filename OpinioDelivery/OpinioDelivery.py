@@ -6,7 +6,7 @@ import collections
 import hmac
 import hashlib
 from base64 import b64encode
-from constants import API_ENDPOINT, PRODUCTION_HOST, TESTING_HOST, LOCAL_HOST, ACCESS_KEY, SECRET_KEY
+from constants import API_ENDPOINT, PRODUCTION_HOST, TESTING_HOST, LOCAL_HOST, ACCESS_KEY, SECRET_KEY, API_MERCHANT_ENDPOINT, API_SERVICIBILITY_ENDPOINT
 from .errors import HTTPError
 
 
@@ -17,6 +17,8 @@ class OpinioDelivery:
         self.ACCESS_KEY = ACCESS_KEY
         self.SECRET_KEY = SECRET_KEY
         self.API_ENDPOINT = 'http://'+self.SERVER_HOST + API_ENDPOINT
+        self.API_MERCHANT_ENDPOINT = 'http://'+self.SERVER_HOST + API_MERCHANT_ENDPOINT
+        self.API_SERVICIBILITY_ENDPOINT = 'http://'+self.SERVER_HOST + API_SERVICIBILITY_ENDPOINT
 
     def get_req_header(self, params, method, path):
         if params:
@@ -62,5 +64,27 @@ class OpinioDelivery:
         headers = self.get_req_header({}, 'GET', API_ENDPOINT)
         print headers
         response = requests.get(self.API_ENDPOINT, headers=headers)
+        print response.content
+        return self._get_repsonse_dict(response)
+
+    def create_merchant(self, params):
+        print '-- Create New Merchant --'
+        headers = self.get_req_header(params, 'POST', API_MERCHANT_ENDPOINT)
+        response = requests.post(self.API_MERCHANT_ENDPOINT, data=params, headers=headers)
+        print response.content
+        return self._get_repsonse_dict(response)
+
+    def merchant_status(self, merchant_id):
+        print '-- Getting Merchant Status '+merchant_id+' --'
+        headers = self.get_req_header({}, 'GET', API_MERCHANT_ENDPOINT+'/'+merchant_id)
+        response = requests.get(self.API_MERCHANT_ENDPOINT+'/'+merchant_id, headers=headers)
+        print response.content
+        return self._get_repsonse_dict(response)
+
+    def serviceability(self, params):
+        print '-- Serviceability --'
+        print params
+        headers = self.get_req_header({}, 'GET', API_SERVICIBILITY_ENDPOINT)
+        response = requests.get(self.API_SERVICIBILITY_ENDPOINT, params=params, headers=headers)
         print response.content
         return self._get_repsonse_dict(response)
