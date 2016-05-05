@@ -24,9 +24,16 @@ class OpinioDelivery:
         if params:
             sorted_params = collections.OrderedDict(sorted(params.items()))
             qstring = '&'+urllib.urlencode(sorted_params)
+            qstring = qstring.replace('+', '%20')
+            qstring = qstring.replace('*', '%2A')
+            qstring = qstring.replace('%7E', '~')
         else:
             qstring = ''
+        print(qstring)
+        print('+++++----------+++++');
         encode_request = '\n'.join([method, self.SERVER_HOST, path, self.ACCESS_KEY, qstring, '&SignatureVersion=1', '&SignatureMethod=HmacSHA1'])
+        print(encode_request)
+        print('----------------------------')
         sig = hmac.new(self.SECRET_KEY,encode_request,hashlib.sha1)
         auth_key = "Opinio "+self.ACCESS_KEY+":"+b64encode(sig.digest())
         headers = {"Authorization": auth_key}
@@ -85,7 +92,7 @@ class OpinioDelivery:
         print '-- Serviceability --'
         print API_SERVICEABILITY_ENDPOINT
         print '++++++++++++++++++'
-        headers = self.get_req_header({}, 'GET', API_SERVICEABILITY_ENDPOINT)
+        headers = self.get_req_header(params, 'GET', API_SERVICEABILITY_ENDPOINT)
         response = requests.get(self.API_SERVICEABILITY_ENDPOINT, params=params, headers=headers)
         print response.content
         return self._get_repsonse_dict(response)
