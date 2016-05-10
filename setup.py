@@ -43,6 +43,7 @@ setup(name='opiniohll',
           'ujson >= 1.35'
       ],
       zip_safe=False,
+      keywords=['opinio', 'hll', 'OpinioDelivery'],
       classifiers=[
           'Environment :: Web Environment',
           'Intended Audience :: Developers',

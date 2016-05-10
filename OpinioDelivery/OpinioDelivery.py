@@ -6,19 +6,25 @@ import collections
 import hmac
 import hashlib
 from base64 import b64encode
-from constants import API_ENDPOINT, PRODUCTION_HOST, TESTING_HOST, LOCAL_HOST, ACCESS_KEY, SECRET_KEY, API_MERCHANT_ENDPOINT, API_SERVICEABILITY_ENDPOINT
+from constants import API_ENDPOINT, API_MERCHANT_ENDPOINT, API_SERVICEABILITY_ENDPOINT, STAGING_URL_HOST, PRODUCTION_URL_HOST
 from .errors import HTTPError
 
 
 class OpinioDelivery:
-    def __init__(self):
-        # Create some member animals
-        self.SERVER_HOST = LOCAL_HOST
-        self.ACCESS_KEY = ACCESS_KEY
-        self.SECRET_KEY = SECRET_KEY
+    def __init__(self, access_key, secret_key, sandbox=False, debug=False):
+        self.ACCESS_KEY = access_key
+        self.SECRET_KEY = secret_key
         self.API_ENDPOINT = 'http://'+self.SERVER_HOST+API_ENDPOINT
         self.API_MERCHANT_ENDPOINT = 'http://'+self.SERVER_HOST+API_MERCHANT_ENDPOINT
         self.API_SERVICEABILITY_ENDPOINT = 'http://'+self.SERVER_HOST+API_SERVICEABILITY_ENDPOINT
+        if sandbox:
+            self.SERVER_HOST = STAGING_URL_HOST
+        else:
+            self.SERVER_HOST = PRODUCTION_URL_HOST
+
+    def _setup(self, params):
+        print params
+        return 1
 
     def get_req_header(self, params, method, path):
         if params:
@@ -29,18 +35,21 @@ class OpinioDelivery:
             qstring = qstring.replace('%7E', '~')
         else:
             qstring = ''
-        print(qstring)
-        print('+++++----------+++++');
-        encode_request = '\n'.join([method, self.SERVER_HOST, path, self.ACCESS_KEY, qstring, '&SignatureVersion=1', '&SignatureMethod=HmacSHA1'])
-        print(encode_request)
-        print('----------------------------')
-        sig = hmac.new(self.SECRET_KEY,encode_request,hashlib.sha1)
+        encode_request = '\n'.join([
+            method,
+            self.SERVER_HOST,
+            path,
+            self.ACCESS_KEY,
+            qstring,
+            '&SignatureVersion=1',
+            '&SignatureMethod=HmacSHA1'])
+        sig = hmac.new(self.SECRET_KEY, encode_request, hashlib.sha1)
         auth_key = "Opinio "+self.ACCESS_KEY+":"+b64encode(sig.digest())
         headers = {"Authorization": auth_key}
         return headers
 
     def _get_repsonse_dict(self, response):
-        if not response.status_code in [200, 201]:
+        if response.status_code not in [200, 201]:
             raise HTTPError(response.content)
         return json.loads(response.content)
 
@@ -60,7 +69,7 @@ class OpinioDelivery:
 
     def cancel_order(self, order_id):
         print '-- Cancelling Order '+order_id+' --'
-        params = {'is_cancelled':1}
+        params = {'is_cancelled': 1}
         headers = self.get_req_header(params, 'PUT', API_ENDPOINT+'/'+order_id)
         response = requests.put(self.API_ENDPOINT+'/'+order_id, data=params, headers=headers)
         print response.content

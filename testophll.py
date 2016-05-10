@@ -1,8 +1,18 @@
-# Import classes from your brand new package
 from OpinioDelivery import OpinioDelivery
+from OpinioDelivery.constants import ACCESS_KEY, SECRET_KEY
 
-# Create an object of Mammals class & call a method of it
-ophll = OpinioDelivery()
+ophll = OpinioDelivery(ACCESS_KEY, SECRET_KEY, True, True)
+
+
+# Setup package
+# params = {
+#     'ACCESS_KEY': 'access_something',
+#     'SECRET_KEY': 'secret_soemthing',
+#     'sandbox': True,
+#     'debug': True
+# }
+# ophll._setup(params)
+
 
 # Get All orders / History
 # ophll.get_orders()
@@ -47,9 +57,9 @@ ophll = OpinioDelivery()
 # ophll.merchant_status('2')
 
 # Serviceability for a merchant
-# params = {
-#     'merchant_id': '2',
-#     'latitude': '12.565425',
-#     'longitude': '77.11555'
-# }
-# ophll.serviceability(params)
+params = {
+    'merchant_id': '2',
+    'latitude': '12.565425',
+    'longitude': '77.11555'
+}
+ophll.serviceability(params)

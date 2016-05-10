@@ -3,9 +3,8 @@
 import config
 
 # All the Base Endpoints
-LOCAL_HOST = 'localhost:8000'
-PRODUCTION_HOST = 'deliver.opinioapp.com'
-TESTING_HOST = 'test.deliver.opinioapp.com'
+STAGING_URL_HOST = 'test.deliver.opinioapp.com'
+PRODUCTION_URL_HOST = 'deliver.opinioapp.com'
 
 ACCESS_KEY = config.ACCESS_KEY
 SECRET_KEY = config.SECRET_KEY
