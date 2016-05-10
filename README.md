@@ -11,7 +11,21 @@ pip install opiniohll
 
 ## Usage
 
+#### Import Package
+```
+from OpinioDelivery import OpinioDelivery
+```
 
+#### Initialise
+```
+opinio_client = OpinioDelivery(ACCESS_KEY, SECRET_KEY, sandbox=True, debug=True)
+```
 
+ACCESS__KEY and SECRET_KEY can be found from Opinio partner model.
+sandbox and debug are optional fields.
+By default, production is accessed.
 
-#### Under Development
+Rest Api are in [documentation](http://deliver.opinioapp.com/api/docs)
+
+### [Wiki](https://github.com/anistark/opiniohll/wiki)
+
