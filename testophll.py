@@ -4,16 +4,6 @@ from OpinioDelivery.constants import ACCESS_KEY, SECRET_KEY
 ophll = OpinioDelivery(ACCESS_KEY, SECRET_KEY, True, True)
 
 
-# Setup package
-# params = {
-#     'ACCESS_KEY': 'access_something',
-#     'SECRET_KEY': 'secret_soemthing',
-#     'sandbox': True,
-#     'debug': True
-# }
-# ophll._setup(params)
-
-
 # Get All orders / History
 # ophll.get_orders()
 
